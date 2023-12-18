@@ -1,18 +1,19 @@
 #!/bin/bash
 
-#give permission for everything in the express-app directory
-sudo chmod -R 777 /home/ubuntu/express-app
+# Give more restrictive permissions
+sudo chmod -R 755 /home/ubuntu/express-app
 
-#navigate into our working directory where we have all our github files
+# Navigate into our working directory
 cd /home/ubuntu/express-app
 
-#add npm and node to path
-export NVM_DIR="$HOME/.nvm"	
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # loads nvm	
+# Add npm and node to path
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # loads nvm bash_completion (node is in path now)
 
-#install node modules
+# Install node modules
 npm install --force
 
-#start our node app in the background
-node index.js > app.out.log 2> app.err.log < /dev/null & 
+# Start our Node app using PM2 for better process management
+# Adjust the application entry point and configuration based on your app structure
+pm2 start index.js --name "my-app" --output app.out.log --error app.err.log

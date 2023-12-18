@@ -1,0 +1,3464 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "FeeOn APIs",
+    "description": "Documentation of All the APIs in FeeOn"
+  },
+  "basePath": "/api/v1",
+  "schemes": ["http", "https"],
+  "tags": [
+    {
+      "name": "Fee Type",
+      "description": "Endpoints related to Fee Type"
+    },
+    {
+      "name": "Fee Schedule",
+      "description": "Endpoints related to Fee Schedule"
+    },
+    {
+      "name": "Fee Structure",
+      "description": "Endpoints related to Fee Structure"
+    }
+  ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "JWT Bearer token"
+    }
+  },
+  "paths": {
+    "/feetype": {
+      "get": {
+        "tags": ["Fee Type"],
+        "summary": "This API fetches all the list of fee types available with pagination.",
+        "parameters": [
+          {
+            "name": "schoolId",
+            "in": "query",
+            "description": "School Id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "accountType",
+            "in": "query",
+            "description": "Account type to filter the types",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of documents to limit number",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "array"
+                },
+                "resultCount": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Fee Types Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": ["Fee Type"],
+        "summary": "Create a new feetype",
+        "parameters": [
+          {
+            "name": "feeType",
+            "in": "formData",
+            "description": "The name of the feetype",
+            "required": true,
+            "type": "string",
+            "example": "Admission Fee"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the feetype",
+            "required": true,
+            "type": "string",
+            "example": "This is admission fee"
+          },
+          {
+            "name": "accountType",
+            "in": "formData",
+            "description": "The account type of the feetype",
+            "required": true,
+            "type": "string",
+            "example": "Assets"
+          },
+          {
+            "name": "schoolId",
+            "in": "formData",
+            "description": "The school of the feetype",
+            "required": true,
+            "type": "string",
+            "example": "62430d9eea0eaa0bc3e6127e"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created Successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "success"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "5f9b1b0b0b9b9c0b8c8e8e8e"
+                    },
+                    "feeType": {
+                      "type": "string",
+                      "example": "Admission Fee"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Fee charged during admission"
+                    },
+                    "accountType": {
+                      "type": "string",
+                      "example": "Assets"
+                    },
+                    "schoolId": {
+                      "type": "string",
+                      "example": "62430d9eea0eaa0bc3e6127e"
+                    },
+                    "academicYearId": {
+                      "type": "string",
+                      "example": "5f9b1b0b0b9b9c0b8c8e8e8e"
+                    },
+
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2023-03-09T11:00:12.639Z"
+                    },
+
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2023-03-09T11:00:12.639Z"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Created Successfully"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "input validation failed",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "input validation failed"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Error creating feetype"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/feetype/{id}": {
+      "get": {
+        "tags": ["Fee Type"],
+        "summary": "This API fetches a single feetype by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the feetype",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5f9b1b0b0b9b9c0b8c8e8e8e"
+                    },
+                    "feeType": {
+                      "type": "string",
+                      "example": "Admission Fee"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Fee charged during admission"
+                    },
+                    "accountType": {
+                      "type": "string",
+                      "example": "Assets"
+                    },
+                    "academicYearId": {
+                      "type": "string",
+                      "example": "5f9b1b0b0b9b9c0b8c8e8e8e"
+                    },
+                    "schoolId": {
+                      "type": "string",
+                      "example": "62430d9eea0eaa0bc3e6127e"
+                    },
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2023-03-09T11:00:12.639Z"
+                    },
+
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2023-03-09T11:00:12.639Z"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Deleted Successfully"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Fee Type Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": ["Fee Type"],
+        "summary": "This API updates a single feetype by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the feetype",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "feeType",
+            "in": "formData",
+            "description": "The name of the feetype",
+            "required": true,
+            "type": "string",
+            "example": "Admission Fee"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the feetype",
+            "required": true,
+            "type": "string",
+            "example": "This is admission fee"
+          },
+          {
+            "name": "accountType",
+            "in": "formData",
+            "description": "The account type of the feetype",
+            "required": true,
+            "type": "string",
+            "example": "income"
+          },
+          {
+            "name": "schoolId",
+            "in": "formData",
+            "description": "The school of the feetype",
+            "required": true,
+            "type": "string",
+            "example": "4f4f4f4f4fefefefeefefefef"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "5f9b1b0b0b9b9c0b8c8e8e8e"
+                    },
+                    "feeType": {
+                      "type": "string",
+                      "example": "Admission Fee"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Fee charged during admission"
+                    },
+                    "accountType": {
+                      "type": "string",
+                      "example": "Assets"
+                    },
+                    "academicYearId": {
+                      "type": "string",
+                      "example": "5f9b1b0b0b9b9c0b8c8e8e8e"
+                    },
+                    "schoolId": {
+                      "type": "string",
+                      "example": "62430d9eea0eaa0bc3e6127e"
+                    },
+                    "createdAt": {
+                      "type": "date",
+                      "example": "2023-03-09T11:00:12.639Z"
+                    },
+                    "updatedAt": {
+                      "type": "date",
+                      "example": "2023-03-09T11:00:12.639Z"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Updated Successfully"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Fee Type Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["Fee Type"],
+        "summary": "This API deletes a single feetype by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the feetype",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "undefined",
+                  "example": null
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Deleted Successfully"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Fee Type Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/feeschedule": {
+      "get": {
+        "tags": ["Fee Schedule"],
+        "summary": "This API fetches all feeschedules.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number of the feeschedule",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The limit of the feeschedule",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "scheduleType",
+            "in": "query",
+            "description": "The schedule type of the feeschedule",
+            "required": false,
+            "type": "string",
+            "example": "Monthly/Yearly"
+          },
+          {
+            "name": "schoolId",
+            "in": "query",
+            "description": "The school of the feeschedule",
+            "required": false,
+            "type": "string",
+            "example": "efefefefefefefefefefefef"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "_id": "6410502d0661f387bf3a0cf1",
+                      "scheduleName": "Test2",
+                      "description": "Test",
+                      "academicYearId": "5f9b1b0b0b9b9c0b8c8e8e8e",
+                      "day": 10,
+                      "months": [4, 7, 10, 1],
+                      "schoolId": "efefefefefefefefefefefef",
+                      "scheduledDates": [
+                        "2023-04-30T18:30:00.000Z",
+                        "2023-07-31T18:30:00.000Z",
+                        "2023-10-31T18:30:00.000Z",
+                        "2024-01-31T18:30:00.000Z"
+                      ],
+                      "createdAt": "2023-03-14T10:45:01.488Z",
+                      "updatedAt": "2023-03-14T10:45:01.488Z",
+                      "__v": 0
+                    }
+                  ]
+                },
+                "resultCount": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fetched Successfully"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Fee Schedules Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Fee Schedule"],
+        "summary": "This API creates a new feeschedule.",
+        "parameters": [
+          {
+            "name": "scheduleName",
+            "in": "formData",
+            "description": "The name of the feeschedule",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the feeschedule",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "day",
+            "in": "formData",
+            "description": "The day of the feeschedule",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "existingMonths",
+            "in": "formData",
+            "description": "The existingMonths of the feeschedule",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "Number"
+            }
+          },
+          {
+            "name": "months",
+            "in": "formData",
+            "description": "The months of the feeschedule",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "Number"
+            }
+          },
+          {
+            "name": "schoolId",
+            "in": "formData",
+            "description": "The schoolId of the feeschedule",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Please Provide All Required Fields"
+          },
+          "400": {
+            "description": "Fee Schedule Already Exists"
+          },
+          "201": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "example": {
+                    "_id": "6410502d0661f387bf3a0cf1",
+                    "scheduleName": "Test2",
+                    "description": "Test",
+                    "academicYearId": "5f9b1b0b0b9b9c0b8c8e8e8e",
+                    "day": 10,
+                    "months": [4, 7, 10, 1],
+
+                    "schoolId": "efefefefefefefefefefefef",
+                    "scheduledDates": [
+                      "2023-04-30T18:30:00.000Z",
+                      "2023-07-31T18:30:00.000Z",
+                      "2023-10-31T18:30:00.000Z",
+                      "2024-01-31T18:30:00.000Z"
+                    ],
+                    "createdAt": "2023-03-14T10:45:01.488Z",
+                    "updatedAt": "2023-03-14T10:45:01.488Z",
+                    "__v": 0
+                  },
+                  "properties": {
+                    "scheduleName": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "academicYearId": {
+                      "type": "string"
+                    },
+                    "day": {
+                      "type": "integer"
+                    },
+                    "months": {
+                      "type": "array"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "scheduledDates": {
+                      "type": "array"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Created Successfully"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/feeschedule/{id}": {
+      "get": {
+        "tags": ["Fee Schedule"],
+        "summary": "This API fetches a feeschedule by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the feeschedule",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "example": {
+                    "_id": "6410502d0661f387bf3a0cf1",
+                    "scheduleName": "Test2",
+                    "description": "Test",
+                    "academicYearId": "5f9b1b0b0b9b9c0b8c8e8e8e",
+                    "day": 10,
+                    "schoolId": "5f9b1b0b0b9b9c0b8c8e8e8e",
+
+                    "months": [4, 7, 10, 1],
+                    "scheduledDates": [
+                      "2023-04-30T18:30:00.000Z",
+                      "2023-07-31T18:30:00.000Z",
+                      "2023-10-31T18:30:00.000Z",
+                      "2024-01-31T18:30:00.000Z"
+                    ],
+                    "createdAt": "2023-03-14T10:45:01.488Z",
+                    "updatedAt": "2023-03-14T10:45:01.488Z"
+                  },
+                  "properties": {
+                    "scheduleName": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "academicYearId": {
+                      "type": "string"
+                    },
+                    "day": {
+                      "type": "integer"
+                    },
+                    "months": {
+                      "type": "array"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "scheduledDates": {
+                      "type": "array"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fetched Successfully"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Fee Schedule Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Fee Schedule"],
+        "summary": "This API updates a feeschedule by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the feeschedule",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "scheduleName",
+            "in": "formData",
+            "description": "The name of the feeschedule",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the feeschedule",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "day",
+            "in": "formData",
+            "description": "The day of the feeschedule",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "existingMonths",
+            "in": "formData",
+            "description": "The existingMonths of the feeschedule",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "Number"
+            }
+          },
+          {
+            "name": "months",
+            "in": "formData",
+            "description": "The months of the feeschedule",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "Number"
+            }
+          },
+          {
+            "name": "schoolId",
+            "in": "formData",
+            "description": "The schoolId of the feeschedule",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "example": {
+                    "_id": "6410502d0661f387bf3a0cf1",
+                    "scheduleName": "Test2",
+                    "description": "Test",
+                    "academicYearId": "5f9b1b0b0b9b9c0b8c8e8e8e",
+                    "day": 10,
+                    "schoolId": "5f9b1b0b0b9b9c0b8c8e8e8e",
+                    "months": [4, 7, 10, 1],
+                    "scheduledDates": [
+                      "2023-04-30T18:30:00.000Z",
+                      "2023-07-31T18:30:00.000Z",
+                      "2023-10-31T18:30:00.000Z",
+                      "2024-01-31T18:30:00.000Z"
+                    ],
+                    "createdAt": "2023-03-14T10:45:01.488Z",
+                    "updatedAt": "2023-03-14T10:45:01.488Z"
+                  },
+                  "properties": {
+                    "scheduleName": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "academicYearId": {
+                      "type": "string"
+                    },
+                    "day": {
+                      "type": "integer"
+                    },
+                    "months": {
+                      "type": "array"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "scheduledDates": {
+                      "type": "array"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Updated Successfully"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Fee Schedule Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Fee Schedule"],
+        "summary": "This API deletes a feeschedule by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the feeschedule",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "undefined",
+                  "example": null
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Deleted Successfully"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Fee Schedule Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/feestructure": {
+      "post": {
+        "tags": ["Fee Structure"],
+        "summary": "This API creates a new feeschedule.",
+        "parameters": [
+          {
+            "name": "feeStructureName",
+            "in": "formData",
+            "description": "The name of the fee structure",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the fee structure",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "schoolId",
+            "in": "formData",
+            "description": "The schoolId of the fee structure",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "classes",
+            "in": "formData",
+            "description": "The classes of students for whom the fee structure is created",
+            "required": true,
+            "type": "array",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "sectionId": {
+                  "type": "string"
+                }
+              },
+              "required": ["name", "sectionId"]
+            },
+            "example": [
+              {
+                "name": "class 1A",
+                "sectionId": "5f5f5f5f5f5f5f5f5f5f5f5f"
+              },
+              {
+                "name": "class 1B",
+                "sectionId": "5f5f5f5f5f5f5f5f5f5f5f5e"
+              }
+            ]
+          },
+          {
+            "name": "feeDetails",
+            "in": "formData",
+            "description": "The fee details of the fee structure",
+            "required": true,
+            "type": "array",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "object",
+              "properties": {
+                "feeTypeId": {
+                  "type": "string"
+                },
+                "scheduleTypeId": {
+                  "type": "string"
+                },
+                "scheduledDates": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "amount": {
+                        "type": "number"
+                      }
+                    },
+                    "required": ["date", "amount"]
+                  },
+                  "minItems": 1
+                },
+                "totalAmount": {
+                  "type": "number"
+                },
+                "breakdown": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "feeTypeId",
+                "scheduleTypeId",
+                "scheduledDates",
+                "totalAmount",
+                "breakdown"
+              ]
+            },
+            "example": [
+              {
+                "feeTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                "scheduleTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                "scheduledDates": [
+                  {
+                    "date": "2023-03-10T18:30:00.000Z",
+                    "amount": 292
+                  }
+                ],
+                "totalAmount": 3500,
+                "breakdown": 12
+              }
+            ]
+          },
+          {
+            "name": "totalAmount",
+            "in": "formData",
+            "description": "The total amount of the fee structure",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Unprocessable Entity",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Please Provide All Required Fields"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "fail"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fee Structure With This Name Already Exists"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "feeStructureName": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "academicYearId": {
+                      "type": "string"
+                    },
+                    "classes": {
+                      "type": "array"
+                    },
+                    "feeDetails": {
+                      "type": "array"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "totalAmount": {
+                      "type": "integer"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Created Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": {
+                  "feeStructureName": "Second Structure",
+                  "academicYearId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "classes": [
+                    {
+                      "name": "class 1A",
+                      "sectionId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "_id": "6417ea80553330d58e3d6989"
+                    }
+                  ],
+                  "description": "the description",
+                  "feeDetails": [
+                    {
+                      "feeTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "scheduleTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "scheduledDates": [
+                        {
+                          "date": "2023-03-20T04:46:44.263Z",
+                          "amount": 289,
+                          "_id": "6417ea80553330d58e3d698b"
+                        },
+                        {
+                          "date": "2023-04-20T04:46:44.263Z",
+                          "amount": 289,
+                          "_id": "6417ea80553330d58e3d698c"
+                        }
+                      ],
+                      "totalAmount": 578,
+                      "breakdown": 2,
+                      "_id": "6417ea80553330d58e3d698a"
+                    }
+                  ],
+                  "totalAmount": 578,
+                  "_id": "6417ea80553330d58e3d6988",
+                  "__v": 0
+                },
+                "resultCount": 1,
+                "message": "Created Successfully"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Fee Structure"],
+        "summary": "Get all fee structures",
+        "description": "Get all fee structures with filter and pagination",
+        "operationId": "getAllFeeStructures",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "schoolId",
+            "in": "query",
+            "description": "The school id of the fee structure",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The class id of the fee structure",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The class id of the fee structure",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "feeStructureName": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "academicYearId": {
+                        "type": "string"
+                      },
+                      "classes": {
+                        "type": "array"
+                      },
+                      "feeDetails": {
+                        "type": "array"
+                      },
+                      "schoolId": {
+                        "type": "string"
+                      },
+                      "totalAmount": {
+                        "type": "integer"
+                      },
+                      "createdAt": {
+                        "type": "string"
+                      },
+                      "updatedAt": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "All Fee Structures"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": [
+                  {
+                    "feeStructureName": "Secon  Structure",
+                    "academicYearId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                    "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                    "classes": [
+                      {
+                        "name": "class 1A",
+                        "sectionId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                        "_id": "64181f16b1c774f84228257b"
+                      }
+                    ],
+                    "description": "the description",
+                    "feeDetails": [
+                      {
+                        "feeTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                        "scheduleTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                        "scheduledDates": [
+                          {
+                            "date": "2023-03-20T04:46:44.263Z",
+                            "amount": 289,
+                            "_id": "64181f16b1c774f84228257d"
+                          },
+                          {
+                            "date": "2023-04-20T04:46:44.263Z",
+                            "amount": 289,
+                            "_id": "64181f16b1c774f84228257e"
+                          }
+                        ],
+                        "totalAmount": 578,
+                        "breakdown": 2,
+                        "_id": "64181f16b1c774f84228257c"
+                      },
+                      {
+                        "feeTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                        "scheduleTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                        "scheduledDates": [
+                          {
+                            "date": "2023-03-20T04:46:44.263Z",
+                            "amount": 289,
+                            "_id": "64181f16b1c774f842282580"
+                          },
+                          {
+                            "date": "2023-04-20T04:46:44.263Z",
+                            "amount": 289,
+                            "_id": "64181f16b1c774f842282581"
+                          }
+                        ],
+                        "totalAmount": 578,
+                        "breakdown": 2,
+                        "_id": "64181f16b1c774f84228257f"
+                      }
+                    ],
+                    "totalAmount": 578,
+                    "_id": "64181f16b1c774f84228257a",
+                    "__v": 0
+                  }
+                ],
+                "resultCount": 1,
+                "message": "Created Successfully"
+              }
+            }
+          },
+          "404": {
+            "description": "No Fee Type Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "No Fee Type Found"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/feestructure/{id}": {
+      "get": {
+        "tags": ["Fee Structure"],
+        "summary": "Get a fee structure",
+        "description": "Get a fee structure by id",
+        "operationId": "getFeeStructure",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the fee structure",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "No Fee Structure Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Fee Structure not found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "feeStructureName": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "academicYearId": {
+                      "type": "string"
+                    },
+                    "classes": {
+                      "type": "array"
+                    },
+                    "feeDetails": {
+                      "type": "array"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "totalAmount": {
+                      "type": "integer"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fetched Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": {
+                  "feeStructureName": "Secon  Structure",
+                  "academicYearId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "classes": [
+                    {
+                      "name": "class 1A",
+                      "sectionId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "_id": "64181f16b1c774f84228257b"
+                    }
+                  ],
+                  "description": "the description",
+                  "feeDetails": [
+                    {
+                      "feeTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "scheduleTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "scheduledDates": [
+                        {
+                          "date": "2023-03-20T04:46:44.263Z",
+                          "amount": 289,
+                          "_id": "64181f16b1c774f84228257d"
+                        },
+                        {
+                          "date": "2023-04-20T04:46:44.263Z",
+                          "amount": 289,
+                          "_id": "64181f16b1c774f84228257e"
+                        }
+                      ],
+                      "totalAmount": 578,
+                      "breakdown": 2,
+                      "_id": "64181f16b1c774f84228257c"
+                    },
+                    {
+                      "feeTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "scheduleTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "scheduledDates": [
+                        {
+                          "date": "2023-03-20T04:46:44.263Z",
+                          "amount": 289,
+                          "_id": "64181f16b1c774f842282580"
+                        },
+                        {
+                          "date": "2023-04-20T04:46:44.263Z",
+                          "amount": 289,
+                          "_id": "64181f16b1c774f842282581"
+                        }
+                      ],
+                      "totalAmount": 578,
+                      "breakdown": 2,
+                      "_id": "64181f16b1c774f84228257f"
+                    }
+                  ],
+                  "totalAmount": 578,
+                  "_id": "64181f16b1c774f84228257a",
+                  "__v": 0
+                },
+                "resultCount": 1,
+                "message": "Created Successfully"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Fee Structure"],
+        "summary": "Update a fee structure",
+        "description": "Update a fee structure by id",
+        "operationId": "updateFeeStructure",
+        "produces": ["application/json, multipart/form-data"],
+        "parameters": [
+          {
+            "name": "feeStructureName",
+            "in": "formData",
+            "description": "The name of the fee structure",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the fee structure",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "academicYearId",
+            "in": "formData",
+            "description": "The academic year id of the fee structure",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "schoolId",
+            "in": "formData",
+            "description": "The schoolId of the fee structure",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "classes",
+            "in": "formData",
+            "description": "The classes of students for whom the fee structure is created",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "collectionFormat": "multi",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "sectionId": {
+                    "type": "string"
+                  }
+                },
+                "required": ["name", "sectionId"]
+              }
+            },
+            "example": [
+              {
+                "name": "class 1A",
+                "sectionId": "5f5f5f5f5f5f5f5f5f5f5f5f"
+              },
+              {
+                "name": "class 1B",
+                "sectionId": "5f5f5f5f5f5f5f5f5f5f5f5e"
+              }
+            ]
+          },
+          {
+            "name": "feeDetails",
+            "in": "formData",
+            "description": "The fee details of the fee structure",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "collectionFormat": "multi",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "feeTypeId": {
+                    "type": "string"
+                  },
+                  "scheduleTypeId": {
+                    "type": "string"
+                  },
+                  "scheduledDates": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "amount": {
+                          "type": "number"
+                        }
+                      },
+                      "required": ["date", "amount"]
+                    },
+                    "minItems": 1
+                  },
+                  "totalAmount": {
+                    "type": "number"
+                  },
+                  "breakdown": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "feeTypeId",
+                  "scheduleTypeId",
+                  "scheduledDates",
+                  "totalAmount",
+                  "breakdown"
+                ]
+              }
+            },
+            "example": [
+              {
+                "feeTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                "scheduleTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                "scheduledDates": [
+                  {
+                    "date": "2023-03-10T18:30:00.000Z",
+                    "amount": 292
+                  }
+                ],
+                "totalAmount": 3500,
+                "breakdown": 12
+              }
+            ]
+          },
+          {
+            "name": "totalAmount",
+            "in": "formData",
+            "description": "The total amount of the fee structure",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "No Fee Structure Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Fee Structure not found"
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "feeStructureName": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "academicYearId": {
+                      "type": "string"
+                    },
+                    "classes": {
+                      "type": "array"
+                    },
+                    "feeDetails": {
+                      "type": "array"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "totalAmount": {
+                      "type": "integer"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fetched Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": {
+                  "feeStructureName": "Secon  Structure",
+                  "academicYearId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "classes": [
+                    {
+                      "name": "class 1A",
+                      "sectionId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "_id": "64181f16b1c774f84228257b"
+                    }
+                  ],
+                  "description": "the description",
+                  "feeDetails": [
+                    {
+                      "feeTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "scheduleTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "scheduledDates": [
+                        {
+                          "date": "2023-03-20T04:46:44.263Z",
+                          "amount": 289,
+                          "_id": "64181f16b1c774f84228257d"
+                        },
+                        {
+                          "date": "2023-04-20T04:46:44.263Z",
+                          "amount": 289,
+                          "_id": "64181f16b1c774f84228257e"
+                        }
+                      ],
+                      "totalAmount": 578,
+                      "breakdown": 2,
+                      "_id": "64181f16b1c774f84228257c"
+                    },
+                    {
+                      "feeTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "scheduleTypeId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                      "scheduledDates": [
+                        {
+                          "date": "2023-03-20T04:46:44.263Z",
+                          "amount": 289,
+                          "_id": "64181f16b1c774f842282580"
+                        },
+                        {
+                          "date": "2023-04-20T04:46:44.263Z",
+                          "amount": 289,
+                          "_id": "64181f16b1c774f842282581"
+                        }
+                      ],
+                      "totalAmount": 578,
+                      "breakdown": 2,
+                      "_id": "64181f16b1c774f84228257f"
+                    }
+                  ],
+                  "totalAmount": 578,
+                  "_id": "64181f16b1c774f84228257a",
+                  "__v": 0
+                },
+                "resultCount": 1,
+                "message": "Created Successfully"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Fee Structure"],
+        "summary": "Delete a fee structure",
+        "description": "Delete a fee structure by id",
+        "operationId": "deleteFeeStructure",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the fee structure",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "No Fee Structure Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Fee Structure not found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "undefined",
+                  "example": null
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Deleted Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": null,
+                "resultCount": 1,
+                "message": "Deleted Successfully"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "feestructure/unmapped/{schoolId}": {
+      "get": {
+        "tags": ["Fee Structure"],
+        "summary": "Get unmapped classes for a fee structure",
+        "description": "Used as selector option while creating fee structure. This API must require valid jwt token",
+        "operationId": "getFeeStructure",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "schoolId",
+            "in": "path",
+            "description": "The id of the school",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "No Class List Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "No Class List Found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "sectionId": {
+                        "type": "string"
+                      },
+                      "class_id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fetched Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": [
+                  {
+                    "name": "class 1A",
+                    "sectionId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                    "class_id": "64181f16b1c774f84228257b"
+                  }
+                ],
+                "resultCount": 1,
+                "message": "Fetched Successfully"
+              }
+            }
+          },
+          "500": {
+            "description": "Something Went Wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Something Went Wrong"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config": {
+      "get": {
+        "tags": ["Config"],
+        "summary": "Get Academic Years",
+        "description": "Get All academic years with school and other filters",
+        "operationId": "getAcademicYears",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "schoolId",
+            "in": "query",
+            "description": "The id of the school",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          },
+          {
+            "name": "isActive",
+            "in": "query",
+            "description": "The status of the academic year, Only send this while fetching months for the fee Schedule",
+            "required": false,
+            "type": "string",
+            "example": true
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number",
+            "required": false,
+            "type": "integer",
+            "example": 1
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The number of records per page",
+            "required": false,
+            "type": "integer",
+            "example": 10
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Academic Year Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Academic Year Not Found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "schoolId": {
+                        "type": "string"
+                      },
+                      "startDate": {
+                        "type": "date"
+                      },
+                      "endDate": {
+                        "type": "date"
+                      },
+                      "isActive": {
+                        "type": "boolean"
+                      },
+                      "createdAt": {
+                        "type": "string"
+                      },
+                      "updatedAt": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "months": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fetched Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": [
+                  {
+                    "name": "2020-2021",
+                    "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                    "startDate": "2020-04-01T00:00:00.000Z",
+                    "endDate": "2021-03-31T00:00:00.000Z",
+                    "isActive": true,
+                    "createdAt": "2020-09-14T10:00:00.000Z",
+                    "updatedAt": "2020-09-14T10:00:00.000Z",
+                    "id": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                    "months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                  }
+                ],
+                "resultCount": 1,
+                "message": "Fetched Successfully"
+              }
+            }
+          },
+          "500": {
+            "description": "Something Went Wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Something Went Wrong"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Config"],
+        "summary": "Create Academic Year",
+        "description": "Create Academic Year",
+        "operationId": "createAcademicYear",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "The name of the academic year",
+            "required": true,
+            "type": "string",
+            "example": "2020-2021"
+          },
+          {
+            "name": "schoolId",
+            "in": "formData",
+            "description": "The id of the school",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          },
+          {
+            "name": "startDate",
+            "in": "formData",
+            "description": "The start date of the academic year",
+            "required": true,
+            "type": "date",
+            "example": "2020-04-01"
+          },
+          {
+            "name": "endDate",
+            "in": "formData",
+            "description": "The end date of the academic year",
+            "required": true,
+            "type": "date",
+            "example": "2021-03-31"
+          },
+          {
+            "name": "isActive",
+            "in": "formData",
+            "description": "The status of the academic year",
+            "required": false,
+            "type": "boolean",
+            "example": true
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Please Provide All Required Fields",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Please Provide All Required Fields"
+              }
+            }
+          },
+          "201": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "startDate": {
+                      "type": "date"
+                    },
+                    "endDate": {
+                      "type": "date"
+                    },
+                    "isActive": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "months": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Created Successfully"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Something Went Wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Something Went Wrong"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config/{id}": {
+      "get": {
+        "tags": ["Config"],
+        "summary": "Get Academic Year By Id",
+        "description": "Get Academic Year By Id",
+        "operationId": "getAcademicYearById",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the academic year",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Academic Year Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Academic Year Not Found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "startDate": {
+                      "type": "date"
+                    },
+                    "endDate": {
+                      "type": "date"
+                    },
+                    "isActive": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "months": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fetched Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": {
+                  "name": "2020-2021",
+                  "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "startDate": "2020-04-01T00:00:00.000Z",
+                  "endDate": "2021-03-31T00:00:00.000Z",
+                  "isActive": true,
+                  "createdAt": "2020-09-10T09:00:00.000Z",
+                  "updatedAt": "2020-09-10T09:00:00.000Z",
+                  "id": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "months": [4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3]
+                },
+                "resultCount": 1,
+                "message": "Fetched Successfully"
+              }
+            }
+          },
+          "500": {
+            "description": "Something Went Wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Something Went Wrong"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Config"],
+        "summary": "Update Academic Year",
+        "description": "Update Academic Year",
+        "operationId": "updateAcademicYear",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the academic year",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "The name of the academic year",
+            "required": true,
+            "type": "string",
+            "example": "2020-2021"
+          },
+          {
+            "name": "schoolId",
+            "in": "formData",
+            "description": "The id of the school",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          },
+          {
+            "name": "startDate",
+            "in": "formData",
+            "description": "The start date of the academic year",
+            "required": true,
+            "type": "date",
+            "example": "2020-04-01"
+          },
+          {
+            "name": "endDate",
+            "in": "formData",
+            "description": "The end date of the academic year",
+            "required": true,
+            "type": "date",
+            "example": "2021-03-31"
+          },
+          {
+            "name": "isActive",
+            "in": "formData",
+            "description": "The status of the academic year",
+            "required": false,
+            "type": "boolean",
+            "example": true
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Academic year is already mapped with fee schedule",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Academic year is already mapped with fee schedule"
+              }
+            }
+          },
+          "404": {
+            "description": "Academic Year Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Academic Year Not Found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "startDate": {
+                      "type": "date"
+                    },
+                    "endDate": {
+                      "type": "date"
+                    },
+                    "isActive": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "name": "2020-2021",
+                    "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                    "startDate": "2020-04-01T00:00:00.000Z",
+                    "endDate": "2021-03-31T00:00:00.000Z",
+                    "isActive": true,
+                    "createdAt": "2020-09-10T09:00:00.000Z",
+                    "updatedAt": "2020-09-10T09:00:00.000Z",
+                    "id": "5f5f5f5f5f5f5f5f5f5f5f5f"
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Updated Successfully"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Something Went Wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Something Went Wrong"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Config"],
+        "summary": "Delete Academic Year",
+        "description": "Delete Academic Year",
+        "operationId": "deleteAcademicYear",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the academic year",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Academic Year Is Already Mapped With Fee Type Or Fee Schedule",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Academic Year Is Already Mapped With Fee Type Or Fee Schedule"
+              }
+            }
+          },
+          "404": {
+            "description": "Academic Year Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Academic Year Not Found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "undefined",
+                  "example": null
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Deleted Successfully"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Something Went Wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Something Went Wrong"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config/activate": {
+      "post": {
+        "tags": ["Config"],
+        "summary": "Activate Academic Year",
+        "description": "Activate Academic Year",
+        "operationId": "activateAcademicYear",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "formData",
+            "description": "The id of the academic year",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          },
+          {
+            "name": "isActive",
+            "in": "formData",
+            "description": "The isActive of the academic year",
+            "required": true,
+            "type": "boolean",
+            "example": true
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Please Provide All Required Fields",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Please Provide All Required Fields"
+              }
+            }
+          },
+          "404": {
+            "description": "Academic Year Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Academic Year Not Found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "startDate": {
+                      "type": "date"
+                    },
+                    "endDate": {
+                      "type": "date"
+                    },
+                    "isActive": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "months": {
+                      "type": "array",
+                      "items": {
+                        "type": "Number"
+                      }
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Updated Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": {
+                  "name": "2020-2021",
+                  "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "startDate": "2020-08-01T00:00:00.000Z",
+                  "endDate": "2021-07-31T00:00:00.000Z",
+                  "isActive": true,
+                  "createdAt": "2020-09-08T09:30:00.000Z",
+                  "updatedAt": "2020-09-08T09:30:00.000Z",
+                  "id": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "months": [8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7]
+                },
+                "resultCount": 1,
+                "message": "Updated Successfully"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feecategory": {
+      "post": {
+        "tags": ["Fee Category"],
+        "summary": "Create Fee Category",
+        "description": "Create Fee Category",
+        "operationId": "createFeeCategory",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "The name of the fee category",
+            "required": true,
+            "type": "string",
+            "example": "Academic Fees"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the fee category",
+            "required": true,
+            "type": "string",
+            "example": "Academic Fees"
+          },
+          {
+            "name": "schoolId",
+            "in": "formData",
+            "description": "The schoolId of the fee category",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          },
+          {
+            "name": "academicYearId",
+            "in": "formData",
+            "description": "The academicYearId of the fee category",
+            "required": false,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          }
+        ],
+        "responses": {
+          "422": {
+            "description": "Please Provide All Required Fields",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Please Provide All Required Fields"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "academicYearId": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Created Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": {
+                  "name": "Tution Fee",
+                  "description": "Tution Fee",
+                  "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "academicYearId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "createdAt": "2020-09-08T09:30:00.000Z",
+                  "updatedAt": "2020-09-08T09:30:00.000Z",
+                  "id": "5f5f5f5f5f5f5f5f5f5f5f5f"
+                },
+                "resultCount": 1,
+                "message": "Created Successfully"
+              }
+            }
+          },
+          "400": {
+            "description": "Fee Category Already Exist",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Fee Category Already Exist"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Something Went Wrong"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Fee Category"],
+        "summary": "Get Fee Category",
+        "description": "Get Fee Category",
+        "operationId": "getFeeCategory",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "schoolId",
+            "in": "query",
+            "description": "The schoolId of the fee category",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          },
+          {
+            "name": "academicYearId",
+            "in": "query",
+            "description": "The academicYearId of the fee category",
+            "required": false,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page number of the fee category",
+            "required": false,
+            "type": "string",
+            "example": "1"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "The limit of the fee category",
+            "required": false,
+            "type": "string",
+            "example": "10"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Fee Category Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Fee Category Not Found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "schoolId": {
+                        "type": "string"
+                      },
+                      "academicYearId": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "string"
+                      },
+                      "updatedAt": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fetched Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": [
+                  {
+                    "name": "Tution Fee",
+                    "description": "Tution Fee",
+                    "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                    "academicYearId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                    "createdAt": "2020-09-08T09:30:00.000Z",
+                    "updatedAt": "2020-09-08T09:30:00.000Z",
+                    "id": "5f5f5f5f5f5f5f5f5f5f5f5f"
+                  }
+                ],
+                "resultCount": 1,
+                "message": "Fetched Successfully"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Something Went Wrong"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feecategory/{id}": {
+      "get": {
+        "tags": ["Fee Category"],
+        "summary": "Get Fee Category By Id",
+        "description": "Get Fee Category By Id",
+        "operationId": "getFeeCategoryById",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the fee category",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Fee Category Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Fee Category Not Found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "academicYearId": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fetched Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": {
+                  "name": "Tution Fee",
+                  "description": "Tution Fee",
+                  "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "academicYearId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "createdAt": "2020-09-08T09:30:00.000Z",
+                  "updatedAt": "2020-09-08T09:30:00.000Z",
+                  "id": "5f5f5f5f5f5f5f5f5f5f5f5f"
+                },
+                "resultCount": 1,
+                "message": "Fetched Successfully"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Something Went Wrong"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Fee Category"],
+        "summary": "Update Fee Category",
+        "description": "Update Fee Category",
+        "operationId": "updateFeeCategory",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the fee category",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "The name of the fee category",
+            "required": true,
+            "type": "string",
+            "example": "Academic Fees"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "The description of the fee category",
+            "required": true,
+            "type": "string",
+            "example": "Academic Fees"
+          },
+          {
+            "name": "schoolId",
+            "in": "formData",
+            "description": "The schoolId of the fee category",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          },
+          {
+            "name": "academicYearId",
+            "in": "formData",
+            "description": "The academicYearId of the fee category",
+            "required": false,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Fee Category Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Fee Category Not Found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "schoolId": {
+                      "type": "string"
+                    },
+                    "academicYearId": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Updated Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": {
+                  "name": "Tution Fee",
+                  "description": "Tution Fee",
+                  "schoolId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "academicYearId": "5f5f5f5f5f5f5f5f5f5f5f5f",
+                  "createdAt": "2020-09-08T09:30:00.000Z",
+                  "updatedAt": "2020-09-08T09:30:00.000Z",
+                  "id": "5f5f5f5f5f5f5f5f5f5f5f5f"
+                },
+                "resultCount": 1,
+                "message": "Updated Successfully"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Something Went Wrong"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Fee Category"],
+        "summary": "Delete Fee Category",
+        "description": "Delete Fee Category",
+        "operationId": "deleteFeeCategory",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the fee category",
+            "required": true,
+            "type": "string",
+            "example": "5f5f5f5f5f5f5f5f5f5f5f5f"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Fee Category Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Fee Category Not Found"
+              }
+            }
+          },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "undefined",
+                  "example": null
+                },
+                "resultCount": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Fetched Successfully"
+                }
+              },
+              "example": {
+                "success": true,
+                "data": null,
+                "resultCount": 1,
+                "message": "Deleted Successfully"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "status": "fail",
+                "message": "Something Went Wrong"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

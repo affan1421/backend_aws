@@ -1,0 +1,15 @@
+node_modules
+
+coverage
+
+dist
+
+.env
+
+.development.env
+
+.production.env
+
+.preprod.env
+
+logs

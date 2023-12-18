@@ -1,0 +1,6 @@
+projectKey=feeOn-Backend-Preprod
+serverUrl=https://sonar.growon.app/
+serverVersion=9.7.1.62043
+dashboardUrl=https://sonar.growon.app/dashboard?id=feeOn-Backend-Preprod
+ceTaskId=AYZYt4OnkJ4yWlqcd7RT
+ceTaskUrl=https://sonar.growon.app/api/ce/task?id=AYZYt4OnkJ4yWlqcd7RT

@@ -1,0 +1,29 @@
+# DEV ENV :==============: START
+MONGO_URI = mongodb+srv://admin:1234@cluster0.k9p7m.mongodb.net/lms
+REDIS_SERVER_PORT = 6379
+REDIS_SERVER_HOST = localhost
+REDIS_SERVER_USERNAME =
+REDIS_SERVER_PASSWORD =
+PORT = 3000
+JWT_SECRET = djfhcdvgteusjhkrihgj
+# DEV ENV :==============: END
+
+# PREPROD ENV :==============: START
+MONGO_URI = mongodb+srv://admin:Po6Obm6avPN5vECM@growonpreprod.efn7p.mongodb.net/lms
+PORT = 3000
+REDIS_SERVER_PORT = 6379
+REDIS_SERVER_HOST = localhost
+REDIS_SERVER_USERNAME =
+REDIS_SERVER_PASSWORD =
+JWT_SECRET = djfhcdvgteusjhkrih
+# PREPROD ENV :==============: END
+
+# PRODUCTION ENV :==============: START
+MONGO_URI = mongodb+srv://admin:Po6Obm6avPN5vECM@cluster0.efn7p.mongodb.net/lms
+PORT = 3000
+JWT_SECRET = djfhcdvgteusjhkr
+REDIS_SERVER_PORT = 6379
+REDIS_SERVER_HOST = localhost
+REDIS_SERVER_USERNAME =
+REDIS_SERVER_PASSWORD =
+# PRODUCTION ENV :==============: END

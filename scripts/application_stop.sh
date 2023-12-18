@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 # Stop existing Node.js servers
 NODE_PROCESSES=$(pgrep -f "node")
 

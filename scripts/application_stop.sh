@@ -1,11 +1,10 @@
 #!/bin/bash
-set -e
-# Stop existing Node.js servers
-NODE_PROCESSES=$(pgrep -f "node")
 
-if [ -n "$NODE_PROCESSES" ]; then
-  echo "Stopping existing Node.js servers: $NODE_PROCESSES"
-  kill -TERM $NODE_PROCESSES
-else
-  echo "No existing Node.js servers found"
-fi
+#_Change_Working_Directory
+cd /home/ubuntu/express-app
+
+#_Remove_Unused_Code
+rm -rf node_modules
+
+#Install_node_modules_&_Make_React_Build
+npm  install

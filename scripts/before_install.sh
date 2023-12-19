@@ -1,15 +1,13 @@
 #!/bin/bash
 
-#download node and npm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
-. ~/.nvm/nvm.sh
-nvm install node
+#_Change_Working_Directory
+cd /home/ubuntu/express-app
 
-#create our working directory if it doesnt exist
-DIR="/home/ubuntu/express-app"
-if [ -d "$DIR" ]; then
-  echo "${DIR} exists"
-else
-  echo "Creating ${DIR} directory"
-  mkdir ${DIR}
-fi
+#_Update_&_Set_Node_Version
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+
+#_Download_Node_&NPM
+sudo apt-get install -y nodejs
+
+#_Download_PM2
+npm install pm2@latest -g

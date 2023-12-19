@@ -8,3 +8,6 @@
 
     #Install_node_modules_&_Make_React_Build
     npm  install --force
+
+    pm2 restart /home/ubuntu/express-app/index.js 
+

@@ -8,6 +8,6 @@ pm2 status
 #sudo pm2 delete Frontend
 #sudo pm2 start server.js --name Frontend
 pwd
-pm2 start index.js 
+pm2 restart index.js 
 pm2 save
 pm2 startup

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+rm -rf /home/ubuntu/express-app/*
 #_Change_Working_Directory
 cd /home/ubuntu/express-app
 
@@ -11,3 +11,4 @@ sudo apt-get install -y nodejs
 
 #_Download_PM2
 npm install pm2@latest -g
+

@@ -8,7 +8,6 @@ hooks:
     - location: scripts/application_stop.sh
       timeout: 300
       runas: ubuntu       
-      debug: true
 
   BeforeInstall:
     - location: scripts/before_install.sh

@@ -7,4 +7,6 @@ cd /home/ubuntu/express-app
 rm -rf node_modules
 
 #Install_node_modules_&_Make_React_Build
-npm  install
+npm  install 
+
+

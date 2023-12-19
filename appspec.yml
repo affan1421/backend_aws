@@ -4,6 +4,7 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/express-app
+    overwrite: true
 
 hooks:
 

@@ -1,8 +1,5 @@
-# Deleted the old project before new deploy
 #!/bin/bash
-redis-cli flushall
 
-sudo rm -rf /home/ubuntu/express-app/*
 #_Change_Working_Directory
 cd /home/ubuntu/express-app
 

@@ -1,5 +1,7 @@
 #!/bin/bash
-rm -rf /home/ubuntu/express-app/*
+redis-cli flushall
+
+sudo rm -rf /home/ubuntu/express-app/*
 #_Change_Working_Directory
 cd /home/ubuntu/express-app
 

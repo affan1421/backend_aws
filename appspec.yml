@@ -3,15 +3,11 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/express-app
+    overwrite: true
 hooks:
-  applicationstop:
-    - location: scripts/application_stop.sh
-      timeout: 300     
-
-  beforeinstall:
-    - location: scripts/before_install.sh
+  BeforeInstall:
+    - location: scripts/before_install.sh 
       timeout: 300
-
-  applicationstart:
+  AfterInstall:
     - location: scripts/application_start.sh
-      timeout: 300
+      timeout: 600

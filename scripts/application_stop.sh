@@ -1,4 +1,6 @@
 #!/bin/bash
+set -x
+
 
 #_Change_Working_Directory
 cd /home/ubuntu/express-app

@@ -12,3 +12,6 @@ sudo apt-get install -y nodejs
 #_Download_PM2
 sudo npm install pm2@latest -g
 
+# in before_install.sh
+git clean -fdX
+

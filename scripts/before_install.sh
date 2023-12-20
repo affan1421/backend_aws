@@ -3,6 +3,9 @@ set -e
 #_Change_Working_Directory
 cd /home/ubuntu/express-app
 
+sudo rm -rf /home/ubuntu/express-app/*
+
+
 #_Update_&_Set_Node_Version
 curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 

@@ -16,6 +16,5 @@ sudo pm2 update
 pwd
 sudo pm2 restart default 
 
-update-env
 sudo pm2 save
 sudo pm2 startup

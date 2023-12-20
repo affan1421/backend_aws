@@ -11,15 +11,6 @@ curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 #_Download_Node_&NPM
 sudo apt-get install -y nodejs
 
-sudo rm -rf /usr/lib/node_modules/.pm2-zkn4vkCL
-
-
-pm2 kill
-
-
-#_Download_PM2
-sudo npm install pm2@latest -g
-
 # in before_install.sh
 
 

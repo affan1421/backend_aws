@@ -5,8 +5,6 @@ files:
   - source: /
     destination: /home/ubuntu/express-app
     overwrite: true
-    patterns:
-      - .vscode/**
 
 hooks:
 

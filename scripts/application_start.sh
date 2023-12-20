@@ -12,4 +12,3 @@ cd /home/ubuntu/express-app
 pwd
 pm2 restart default 
 
-pm2 save 

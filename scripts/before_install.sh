@@ -4,7 +4,6 @@
 cd /home/ubuntu/express-app
 
 sudo rm -rf /home/ubuntu/express-app/*
-rm -rf node_modules package-lock.json
 
 
 # #_Update_&_Set_Node_Version

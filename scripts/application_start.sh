@@ -14,7 +14,8 @@ sudo pm2 update
 #sudo pm2 delete Frontend
 #sudo pm2 start server.js --name Frontend
 pwd
-pm2 start /home/ubuntu/express-app/index.js -f
+sudo pm2 reload ecosystem.config.js --update-env
 
+update-env
 sudo pm2 save
 sudo pm2 startup

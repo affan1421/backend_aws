@@ -14,7 +14,7 @@ sudo pm2 update
 #sudo pm2 delete Frontend
 #sudo pm2 start server.js --name Frontend
 pwd
-sudo pm2 reload ecosystem.config.js --update-env
+sudo pm2 restart default 
 
 update-env
 sudo pm2 save
